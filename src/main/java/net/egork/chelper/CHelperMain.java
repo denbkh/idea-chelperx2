@@ -14,8 +14,8 @@ public class CHelperMain implements ApplicationComponent {
 
     public void initComponent() {
         Utilities.addListeners();
-        SSLUtils.trustAllHostnames();
-        SSLUtils.trustAllHttpsCertificates();
+        //SSLUtils.trustAllHostnames();
+        //SSLUtils.trustAllHttpsCertificates();
     }
 
     public void disposeComponent() {

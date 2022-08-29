@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id "org.jetbrains.intellij" version "1.2.0"
+    id "org.jetbrains.intellij" version "1.8.1"
 }
 
 repositories {
@@ -23,10 +23,16 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-intellij {
-    version = '2021.2'
-    plugins = ['java']
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
+
+intellij {
+    version = "2022.2.1"
+    plugins = ['java']
+    updateSinceUntilBuild = false
+}
+
 
 buildSearchableOptions {
     enabled = false
