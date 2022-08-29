@@ -45,10 +45,11 @@ public class TaskConfiguration extends ModuleBasedConfiguration<JavaRunConfigura
     @Override
     public @NotNull List<BeforeRunTask<?>> getBeforeRunTasks() {
         List<BeforeRunTask<?>> result = new ArrayList<>(super.getBeforeRunTasks());
-        result.add(new MakeProjectStepBeforeRun.MakeProjectBeforeRunTask());
+        if(result.size() == 0) {
+            result.add(new MakeProjectStepBeforeRun.MakeProjectBeforeRunTask());
+        }
         return result;
     }
-
     @Override
     public Collection<Module> getValidModules() {
         return JavaRunConfigurationModule.getModulesForClass(getProject(), configuration.taskClass);
