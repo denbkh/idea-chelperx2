@@ -24,6 +24,11 @@ public class TaskConfigurationType implements ConfigurationType {
             public RunConfiguration createTemplateConfiguration(Project project) {
                 return new TaskConfiguration("Task", project, Utilities.getDefaultTask(), factory);
             }
+
+            @Override
+            public String getId() {
+                return getName();
+            }
         };
         INSTANCE = this;
     }
