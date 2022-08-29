@@ -1,6 +1,7 @@
 package net.egork.chelper.util;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.cojac.CojacAgent;
 import com.intellij.execution.RunnerAndConfigurationSettings;
@@ -19,9 +20,7 @@ import com.intellij.openapi.project.ProjectManagerAdapter;
 import com.intellij.openapi.roots.ModifiableRootModel;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.roots.OrderRootType;
-import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable;
-import com.intellij.openapi.roots.libraries.Library;
-import com.intellij.openapi.roots.libraries.LibraryTable;
+import com.intellij.openapi.roots.libraries.*;
 import com.intellij.openapi.vfs.JarFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
@@ -104,13 +103,13 @@ public class Utilities {
     public static void fixLibrary(Project project) {
         ApplicationManager.getApplication().runWriteAction(new Runnable() {
             public void run() {
-                Class[] neededClasses = {NewTester.class, CojacAgent.class, JsonCreator.class, ObjectMapper.class, com.fasterxml.jackson.core.JsonParser.class};
-                LibraryTable table = ProjectLibraryTable.getInstance(project);
+                Class<?>[] neededClasses = {NewTester.class, CojacAgent.class, JsonCreator.class, ObjectMapper.class, JsonParser.class};
+                LibraryTable table = LibraryTablesRegistrar.getInstance().getLibraryTable(project);
                 Library library = table.getLibraryByName("CHelper");
                 if (library == null) {
                     library = table.createLibrary("CHelper");
                 }
-                for (Class aClass : neededClasses) {
+                for (Class<?> aClass : neededClasses) {
                     String path = TopCoderAction.getJarPathForClass(aClass);
                     VirtualFile jar = VirtualFileManager.getInstance().findFileByUrl(VirtualFileManager.constructUrl(JarFileSystem.PROTOCOL, path) + JarFileSystem.JAR_SEPARATOR);
                     Library.ModifiableModel libraryModel = library.getModifiableModel();
